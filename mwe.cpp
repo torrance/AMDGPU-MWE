@@ -29,15 +29,12 @@ void cpukernel(
         int lpx = idx / 96;
         int mpx = idx - 96 * lpx;
 
-        float l = lpx - 48;
-        float m = mpx - 48;
-
         auto u = us.begin();
         auto v = vs.begin();
         auto datum = data.begin();
 
         while (datum != data.end()) {
-            float phase = 2 * pi * (*u * l + *v * m);
+            float phase = 2 * pi * (*u * lpx + *v * mpx);
             subgrid[idx] += *datum * std::complex<float>{std::cosf(phase), std::sinf(phase)};
 
             ++u; ++v; ++datum;
@@ -57,16 +54,13 @@ void kernel(std::complex<float>* subgrid, Origin origin, float* us, float* vs, s
     int lpx = idx / 96;
     int mpx = idx - 96 * lpx;
 
-    float l = lpx - 48;
-    float m = mpx - 48;
-
     std::complex<float> cell{0};
     for (int i = 0; i < N; ++i) {
         float u = us[i];
         float v = vs[i];
         std::complex<float> datum = data[i];
 
-        float phase = 2 * (u * l + v * m);
+        float phase = 2 * (u * lpx + v * mpx);
         float real, imag;
         sincospif(phase, &imag, &real);
         cell += datum * std::complex<float>{real, imag};
