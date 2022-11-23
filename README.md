@@ -9,7 +9,8 @@ The aim is for the AMDGPU.jl version to reach speed parity with HIP.
 This particular kernel is a stripped-down version of what is essentially a direct Fourier Transform:
 
 $$
-y_{l,m} = \sum_{u,v} x_{u,v} \cdot \exp \left\{ 2 \pi i (u l + v m) \right\}$$
+y_{l,m} = \sum_{u,v} x_{u,v} \cdot \exp \left\{ 2 \pi i (u l + v m) \right\}
+$$
 
 Where $u, v$ are coordinates in some 2D space, and $l, m$ are their Fourier counterparts. It is used as part of a radio astronomy algorithm known as Image Domain Gridding.
 
