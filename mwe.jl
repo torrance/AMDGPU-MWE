@@ -1,6 +1,12 @@
 using AMDGPU
 using BenchmarkTools
 
+struct Origin
+    u0::Float32
+    v0::Float32
+    w0::Float32
+end
+
 # CPU version used for testing
 function dift!(subgrid::Array, origin, us, vs, data)
     idxs = CartesianIndices(size(subgrid))
@@ -46,7 +52,7 @@ end
 subgrid = ROCArray{ComplexF32}(undef, 96, 96)
 fill!(subgrid, zero(eltype(subgrid)))
 
-origin = (u0=rand(Float32) - 0.5, v0=rand(Float32) - 0.5, w0=rand(Float32) - 0.5)
+origin = Origin(rand(3)...)
 
 N = 1024 * 200
 us = rand(Float32, N) .- 0.5
