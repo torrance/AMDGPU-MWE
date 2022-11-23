@@ -142,10 +142,14 @@ int main(void) {
     std::array<std::complex<float>, Nsubgrid> subgrid;
     hipMemcpy(subgrid.data(), subgrid_d, sizeof(subgrid), hipMemcpyDeviceToHost);
 
-    // Compare CPU and GPU versions for first few results
+    // Compare CPU and GPU versions
+    float maxdiff = 0;
     for (int i = 0; i < 10; ++i) {
-        std::cout << "CPU: " << expected[i] << " GPU: " << subgrid[i] << std::endl;
+        if (abs(expected[i] - subgrid[i]) > maxdiff) {
+           maxdiff = abs(expected[i] - subgrid[i]);
+        }
     }
+    std::cout << "Max difference between CPU and CPU is: " << maxdiff << std::endl;
 
     hipFree(us_d);
     hipFree(vs_d);
