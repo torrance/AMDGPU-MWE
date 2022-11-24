@@ -38,7 +38,7 @@ function dift!(subgrid::ROCDeviceArray, origin, us, vs, data)
         phase = 2 * (
             (u - origin.u0) * lpx +
             (v - origin.v0) * mpx
-        )
+        )::Float32
         # No cispi() available, and sincospi() seems to kill the kernel
         # imag, real = sincospi(phase)
         cell += datum * ComplexF32(cospi(phase), sinpi(phase))
@@ -55,8 +55,8 @@ fill!(subgrid, zero(eltype(subgrid)))
 origin = Origin(rand(3)...)
 
 N = 1024 * 200
-us = rand(Float32, N) .- 0.5
-vs = rand(Float32, N) .- 0.5
+us = rand(Float32, N) .- 0.5f0
+vs = rand(Float32, N) .- 0.5f0
 data = rand(ComplexF32, N)
 
 # Calculcate expected result on CPU

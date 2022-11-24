@@ -37,15 +37,15 @@ Elapsed time per call: 25.3059 ms
 
 @roc OK
 BenchmarkTools.Trial: 10 samples with 1 evaluation.
- Range (min … max):  216.361 ms … 226.832 ms  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     216.491 ms               ┊ GC (median):    0.00%
- Time  (mean ± σ):   217.557 ms ±   3.261 ms  ┊ GC (mean ± σ):  0.11% ± 0.33%
+ Range (min … max):  43.925 ms … 55.387 ms  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     44.103 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   45.208 ms ±  3.578 ms  ┊ GC (mean ± σ):  0.00% ± 0.00%
 
-  █                                                              
-  █▇▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄ ▁
-  216 ms           Histogram: frequency by time          227 ms <
+  █▁                                                           
+  ██▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄ ▁
+  43.9 ms         Histogram: frequency by time        55.4 ms <
 
- Memory estimate: 4.86 MiB, allocs estimate: 318079.
+ Memory estimate: 1014.72 KiB, allocs estimate: 64649.
 ```
 
 Additionally:
@@ -55,4 +55,8 @@ Additionally:
 
 ## Results
 
-The HIP version is currently approximately 9x faster than the AMDGPU.jl version.
+The HIP version is currently approximately 2x faster than the AMDGPU.jl version.
+
+## Changelog
+
+Fixed a a type issue where the `us` and `vs` vectors were becoming `Float64`. Slowdown reduced from ~9x to ~2x.
