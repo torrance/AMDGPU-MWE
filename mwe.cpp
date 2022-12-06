@@ -8,7 +8,7 @@
 
 const int N = 1024 * 200;
 const int Nsubgrid = 96 * 96;
-const float pi = std::acosf(-1);
+const float M_PIf = static_cast<float>(M_PI);
 
 typedef struct Origin {
     float u0;
@@ -26,16 +26,18 @@ void cpukernel(
 ) {
 
     for (int idx = 0; idx < Nsubgrid; ++idx) {
-        int lpx = idx / 96;
-        int mpx = idx - 96 * lpx;
+        // int lpx = idx / 96;
+        // int mpx = idx - 96 * lpx;
+        int lpx = 5;
+        int mpx = 4;
 
         auto u = us.begin();
         auto v = vs.begin();
         auto datum = data.begin();
 
         while (datum != data.end()) {
-            float phase = 2 * pi * (*u * lpx + *v * mpx);
-            subgrid[idx] += *datum * std::complex<float>{std::cosf(phase), std::sinf(phase)};
+            float phase = 2 * M_PIf * (*u * lpx + *v * mpx);
+            subgrid[idx] += *datum * phase; // std::complex<float>{std::cosf(phase), std::sinf(phase)};
 
             ++u; ++v; ++datum;
         }
@@ -51,8 +53,10 @@ void kernel(std::complex<float>* subgrid, Origin origin, float* us, float* vs, s
         return;
     }
 
-    int lpx = idx / 96;
-    int mpx = idx - 96 * lpx;
+    // int lpx = idx / 96;
+    // int mpx = idx - 96 * lpx;
+    int lpx = 5;
+    int mpx = 4;
 
     std::complex<float> cell{0};
     for (int i = 0; i < N; ++i) {
@@ -60,10 +64,10 @@ void kernel(std::complex<float>* subgrid, Origin origin, float* us, float* vs, s
         float v = vs[i];
         std::complex<float> datum = data[i];
 
-        float phase = 2 * (u * lpx + v * mpx);
-        float real, imag;
-        sincospif(phase, &imag, &real);
-        cell += datum * std::complex<float>{real, imag};
+        float phase = 2 * M_PIf * (u * lpx + v * mpx);
+        // float real, imag;
+        // sincospif(phase, &imag, &real);
+        cell += datum * phase; // std::complex<float>{real, imag};
     }
 
     subgrid[idx] = cell;
