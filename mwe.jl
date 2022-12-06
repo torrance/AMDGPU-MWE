@@ -26,7 +26,7 @@ function dift!(subgrid::Array, origin, us, vs, data)
 end
 
 # GPU version
-function dift!(subgrid::ROCDeviceArray, origin, us::AbstractVector{Float32}, vs::AbstractVector{Float32}, data::AbstractVector{ComplexF32})
+@inbounds function dift!(subgrid::ROCDeviceArray{ComplexF32, 2}, origin::Origin, us::AbstractVector{Float32}, vs::AbstractVector{Float32}, data::AbstractVector{ComplexF32})
     idx = (workgroupDim().x * (workgroupIdx().x - 1)) + workitemIdx().x
     if idx > length(subgrid)
         return
